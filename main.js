@@ -1,47 +1,27 @@
-//  document.addEventListener('DOMContentLoaded', function () {
-// document.getElementById('btn-buscar-cep').addEventListener('click', function () {
+document.addEventListener('DOMContentLoaded', function () {
+    const nameElement = document.querySelector('#name');
+    const usernameElement = document.querySelector('#username');
+    const avatarElement = document.querySelector('#avatar');
+    const reposElement = document.querySelector('#repos');
+    const followersElement = document.querySelector('#followers');
+    const followingElement = document.querySelector('#following');
+    const linkElement = document.querySelector('#link');
 
-//    const xhttp = new XMLHttpRequest();
-
-//   const cep = document.getElementById('cep').value;
-//   const endpoint = `https://viacep.com.br/ws/${cep}/json`;
-
-// xhttp.open('GET', endpoint);
-// xhttp.send();
-//  })
-//})
-
-
-
-$(document).ready(function () {
-
-    $('#cep').mask('0000-000');
-
-    $('#btn-buscar-cep').click(function () {
-        const cep = $('#cep').val();
-        const endpoint = `https://viacep.com.br/ws/${cep}/json`;
-        const botao = $(this);
-
-
-        $(botao).find('i').addClass('d-none');
-        $(botao).find('span').removeClass('d-none');
-
-        $.ajax(endpoint).done(function (resposta) {
-            const logradouro = resposta.logradouro;
-            const bairro = resposta.bairro;
-            const cidade = resposta.localidade;
-            const estado = resposta.uf;
-            const endereco = `${logradouro}, ${bairro} - ${cidade} - ${estado}`;
-
-            $('#endereco').val(endereco);
-
-
-            $(botao).find('i').removeClass('d-none');
-            $(botao).find('span').addClass('d-none');
-
+    fetch('https://api.github.com/users/Le-Bueno')
+        .then(function (res) {
+            return res.json();
         })
-    })
-})
-
-
-
+        .then(function (json) {
+            nameElement.innerText = json.name;
+            usernameElement.innerText = json.login;
+            avatarElement.src = json.avatar_url;
+            followingElement.innerText = json.following;
+            followersElement.innerText = json.followers;
+            reposElement.innerText = json.public_repos; // Aqui corrigido de "Response" para "reposElement"
+            linkElement.href = json.html_url;
+        })
+        .catch(function (error) {
+            console.error('Erro ao carregar dados do usuário:', error);
+            // Aqui você pode tratar o erro de acordo com sua lógica
+        });
+});
