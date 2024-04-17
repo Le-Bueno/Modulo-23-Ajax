@@ -1,47 +1,44 @@
-//  document.addEventListener('DOMContentLoaded', function () {
-// document.getElementById('btn-buscar-cep').addEventListener('click', function () {
-
-//    const xhttp = new XMLHttpRequest();
-
-//   const cep = document.getElementById('cep').value;
-//   const endpoint = `https://viacep.com.br/ws/${cep}/json`;
-
-// xhttp.open('GET', endpoint);
-// xhttp.send();
-//  })
-//})
+//Abstração
 
 
-
-$(document).ready(function () {
-
-    $('#cep').mask('0000-000');
-
-    $('#btn-buscar-cep').click(function () {
-        const cep = $('#cep').val();
-        const endpoint = `https://viacep.com.br/ws/${cep}/json`;
-        const botao = $(this);
+class Animal {
+    constructor(nome, idade) {
+        this.nome = nome;
+        this.idade = idade;
+    }
 
 
-        $(botao).find('i').addClass('d-none');
-        $(botao).find('span').removeClass('d-none');
+}
 
-        $.ajax(endpoint).done(function (resposta) {
-            const logradouro = resposta.logradouro;
-            const bairro = resposta.bairro;
-            const cidade = resposta.localidade;
-            const estado = resposta.uf;
-            const endereco = `${logradouro}, ${bairro} - ${cidade} - ${estado}`;
+// Classe herdeira 1
+class Cachorro extends Animal {
+    constructor(nome, idade, raca) {
+        super(nome, idade);
+        this.raca = raca;
+    }
 
-            $('#endereco').val(endereco);
+    emitirSom() {
+        return "Au Au!";
+    }
+}
+
+// Classe herdeira 2
+class Gato extends Animal {
+    constructor(nome, idade, cor) {
+        super(nome, idade);
+        this.cor = cor;
+    }
+
+    emitirSom() {
+        return "Miau!";
+    }
+}
+
+const cachorro1 = new Cachorro("Max", 5, "Labrador");
+const gato1 = new Gato("Bella", 3, "Branco");
+const cachorro2 = new Cachorro("Rex", 2, "Vira-lata");
 
 
-            $(botao).find('i').removeClass('d-none');
-            $(botao).find('span').addClass('d-none');
-
-        })
-    })
-})
-
-
-
+console.log(cachorro1.emitirSom());
+console.log(gato1.emitirSom());
+console.log(cachorro2.emitirSom()); 
